@@ -13,19 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-<<<<<<< HEAD
-from django.urls import path
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-=======
+from django.contrib import admin
 from django.urls import path, include
 from .views import api_root, router
+import os
+
+# Helper for dynamic API base URL (for documentation, not routing)
+def get_api_base_url():
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        return f"https://{codespace_name}-8000.app.github.dev/api/"
+    return "http://localhost:8000/api/"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', api_root, name='api-root'),
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 ]

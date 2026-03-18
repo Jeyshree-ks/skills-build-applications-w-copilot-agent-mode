@@ -19,26 +19,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-<<<<<<< HEAD
-SECRET_KEY = 'django-insecure-3ggk(!a8co=%xkt(mj-m&d0cc4%ypkvwh!)sad)u$z13#y_vbp'
-=======
 SECRET_KEY = 'django-insecure-rcv*aqsd-pkci6%77hro5d#owvyi4wd10-q31r$3@cpr5^g_@0'
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['*']
-=======
-
-# Allow all hosts for development
+# Allow localhost, 127.0.0.1, Codespace public URL, and Codespace name for development
 import os
-ALLOWED_HOSTS = ['*']
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+codespace_name = os.environ.get('CODESPACE_NAME')
+if codespace_name:
+    ALLOWED_HOSTS.append(f"{codespace_name}-8000.app.github.dev")
+    ALLOWED_HOSTS.append(codespace_name)
+else:
+    ALLOWED_HOSTS.append('*')
 
 
 # Application definition
@@ -92,12 +89,7 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 
 
 # Database
-<<<<<<< HEAD
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-=======
 # Use Djongo to connect to MongoDB
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -105,8 +97,7 @@ DATABASES = {
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': 'mongodb://localhost:27017',
-<<<<<<< HEAD
-        },
+        }
     }
 }
 # CORS settings
@@ -114,11 +105,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['*']
 CORS_ALLOW_METHODS = ['*']
-=======
-        }
-    }
-}
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 
 
 # Password validation
@@ -152,24 +138,17 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-<<<<<<< HEAD
-=======
-# Static files (CSS, JavaScript, Images)
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
-<<<<<<< HEAD
-=======
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['*']
 CORS_ALLOW_METHODS = ['*']
-
->>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
