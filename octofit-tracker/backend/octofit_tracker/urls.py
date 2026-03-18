@@ -14,8 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+=======
+from django.urls import path, include
+from .views import api_root, router
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('', api_root, name='api-root'),
+>>>>>>> 0ce5196 (Build: Octofit Tracker Django backend, models, API, and test data population)
 ]
