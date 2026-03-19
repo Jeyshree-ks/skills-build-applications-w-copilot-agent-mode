@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,15 +28,9 @@ SECRET_KEY = 'django-insecure-rcv*aqsd-pkci6%77hro5d#owvyi4wd10-q31r$3@cpr5^g_@0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Allow localhost, 127.0.0.1, Codespace public URL, and Codespace name for development
-import os
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-codespace_name = os.environ.get('CODESPACE_NAME')
-if codespace_name:
-    ALLOWED_HOSTS.append(f"{codespace_name}-8000.app.github.dev")
-    ALLOWED_HOSTS.append(codespace_name)
-else:
-    ALLOWED_HOSTS.append('*')
+if os.environ.get('CODESPACE_NAME'):
+    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
 
 
 # Application definition
@@ -54,7 +49,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-   
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -63,8 +57,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    
 ]
 
 ROOT_URLCONF = 'octofit_tracker.urls'
@@ -144,11 +136,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
-# CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['*']
-CORS_ALLOW_METHODS = ['*']
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

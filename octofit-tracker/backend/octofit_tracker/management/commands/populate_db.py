@@ -1,26 +1,17 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from djongo import models
-from django.conf import settings
-from pymongo import MongoClient
+
+from octofit_tracker.models import Activity, Leaderboard, Team, User, Workout
 
 class Command(BaseCommand):
     help = 'Populate the octofit_db database with test data'
 
     def handle(self, *args, **options):
-        # Connect to MongoDB
-        client = MongoClient('mongodb://localhost:27017')
-        db = client['octofit_db']
-
-        # Drop collections if they exist
-        db.users.drop()
-        db.teams.drop()
-        db.activities.drop()
-        db.leaderboard.drop()
-        db.workouts.drop()
-
-        # Create unique index on email for users
-        db.users.create_index([('email', 1)], unique=True)
+        # Clear existing data in dependency-safe order.
+        Activity.objects.all().delete()
+        Leaderboard.objects.all().delete()
+        Workout.objects.all().delete()
+        Team.objects.all().delete()
+        User.objects.all().delete()
 
         # Sample data
         users = [
@@ -49,10 +40,15 @@ class Command(BaseCommand):
             {"name": "Agility Drills", "suggested_for": ["Batman", "Black Widow"]},
         ]
 
-        db.users.insert_many(users)
-        db.teams.insert_many(teams)
-        db.activities.insert_many(activities)
-        db.leaderboard.insert_many(leaderboard)
-        db.workouts.insert_many(workouts)
+        for user in users:
+            User.objects.create(**user)
+        for team in teams:
+            Team.objects.create(**team)
+        for activity in activities:
+            Activity.objects.create(**activity)
+        for row in leaderboard:
+            Leaderboard.objects.create(**row)
+        for workout in workouts:
+            Workout.objects.create(**workout)
 
         self.stdout.write(self.style.SUCCESS('octofit_db database populated with test data.'))

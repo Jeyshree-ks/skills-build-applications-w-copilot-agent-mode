@@ -14,20 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
-from django.urls import path, include
-from .views import api_root, router
 import os
+from django.contrib import admin
+from django.urls import include, path
+from django.views.generic.base import RedirectView
 
-# Helper for dynamic API base URL (for documentation, not routing)
-def get_api_base_url():
-    codespace_name = os.environ.get('CODESPACE_NAME')
-    if codespace_name:
-        return f"https://{codespace_name}-8000.app.github.dev/api/"
-    return "http://localhost:8000/api/"
+from .views import api_root, router
+
+codespace_name = os.environ.get('CODESPACE_NAME')
+if codespace_name:
+    base_url = f"https://{codespace_name}-8000.app.github.dev"
+else:
+    base_url = "http://localhost:8000"
+
+# Keep as module-level setting for docs/debug visibility.
+API_BASE_URL = f"{base_url}/api"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
-    path('', api_root, name='api-root'),
+    path('', RedirectView.as_view(pattern_name='api-root', permanent=False)),
 ]

@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/activities/`;
+  const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+  const apiBase = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : window.location.hostname.includes('-3000.app.github.dev')
+      ? `${window.location.protocol}//${window.location.hostname.replace('-3000.app.github.dev', '-8000.app.github.dev')}`
+      : 'http://127.0.0.1:8000';
+  const endpoint = `${apiBase}/api/activities/`;
 
   useEffect(() => {
     console.log('Fetching Activities from:', endpoint);

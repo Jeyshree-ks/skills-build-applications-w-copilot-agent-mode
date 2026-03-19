@@ -5,8 +5,12 @@ from bson import ObjectId
 class ObjectIdField(serializers.Field):
     def to_representation(self, value):
         return str(value)
+
     def to_internal_value(self, data):
-        return ObjectId(data)
+        try:
+            return ObjectId(data)
+        except Exception as exc:
+            raise serializers.ValidationError('Invalid ObjectId value.') from exc
 
 class UserSerializer(serializers.ModelSerializer):
     _id = ObjectIdField(read_only=True)
