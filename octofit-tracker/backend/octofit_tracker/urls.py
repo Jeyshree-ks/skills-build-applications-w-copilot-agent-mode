@@ -19,7 +19,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from .views import api_root, router
+from .views import (
+    ActivityViewSet,
+    LeaderboardViewSet,
+    TeamViewSet,
+    UserViewSet,
+    WorkoutViewSet,
+    api_root,
+    router,
+)
 
 codespace_name = os.environ.get('CODESPACE_NAME')
 if codespace_name:
@@ -33,6 +41,11 @@ API_BASE_URL = f"{base_url}/api"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api_root, name='api-root'),
+    path('api/activities', ActivityViewSet.as_view({'get': 'list'}), name='activities-list-no-slash'),
+    path('api/leaderboard', LeaderboardViewSet.as_view({'get': 'list'}), name='leaderboard-list-no-slash'),
+    path('api/teams', TeamViewSet.as_view({'get': 'list'}), name='teams-list-no-slash'),
+    path('api/users', UserViewSet.as_view({'get': 'list'}), name='users-list-no-slash'),
+    path('api/workouts', WorkoutViewSet.as_view({'get': 'list'}), name='workouts-list-no-slash'),
     path('api/', include(router.urls)),
     path('', RedirectView.as_view(pattern_name='api-root', permanent=False)),
 ]

@@ -35,7 +35,7 @@ def api_root(request, format=None):
         'workouts': reverse('workout-list', request=request, format=format),
     })
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash='/?')
 router.register(r'users', UserViewSet)
 router.register(r'teams', TeamViewSet)
 router.register(r'activities', ActivityViewSet)
